@@ -1,0 +1,15 @@
+package cadastroalunos;
+
+public class CadastroAlunos {
+
+    // DICA DE PROVA: Todo programa Java começa pelo 'public static void main'[cite: 3].
+    public static void main(String[] args) {
+
+        // Código padrão do Java/Swing para abrir uma tela de forma segura[cite: 3].
+        java.awt.EventQueue.invokeLater(() -> {
+            // Aqui você chama o construtor da sua tela e usa o .setVisible(true) para ela aparecer[cite: 3].
+            // Se a tela se chamar TelaProduto, mude para: new TelaProduto().setVisible(true);
+            new TelaCadastro().setVisible(true);
+        });
+    }
+}

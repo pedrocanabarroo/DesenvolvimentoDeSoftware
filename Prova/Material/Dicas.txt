@@ -1,0 +1,19 @@
+1. Pilares da Orientação a Objetos
+
+Encapsulamento: A regra de ouro é proteger os dados da classe (deixando atributos como private) e permitir o acesso ou modificação apenas através de métodos getters e setters públicos.  
+
+Herança (extends): Uma classe filha pode reaproveitar atributos e métodos de uma classe mãe, e o uso de super() dentro do construtor da filha é essencial para passar parâmetros para a classe base.  
+
+Polimorfismo: Entenda a diferença entre sobrescrita (reescrever a implementação de um método herdado, mantendo a assinatura exata) e sobrecarga (ter vários métodos com o mesmo nome na mesma classe, mas recebendo parâmetros diferentes).  
+
+Interfaces vs. Classes Abstratas: Classes abstratas servem como base genérica e não podem ser instanciadas (new Animal()), mas podem ter métodos já implementados. Interfaces são estritamente contratos (implementados com implements), onde você só define as assinaturas dos métodos, sendo uma forma de fazer "herança múltipla" em Java.  
+
+2. Criação de Interfaces com Java Swing
+
+Nomenclatura Padrão: Use sempre os prefixos corretos antes do nome da variável para não se perder na lógica, como btn para botões, lbl para rótulos, txt para campos de texto, cmb para caixas suspensas e rdo para botões de rádio.  
+
+Captura e Conversão de Eventos: Toda a lógica ocorre dentro do método actionPerformed dos botões. Lembre-se que o getText() sempre retorna texto (String), então você precisará usar métodos como Double.parseDouble() ou Integer.parseInt() se for fazer cálculos.  
+
+Componentes de Escolha: Use JCheckBox quando o usuário puder marcar várias opções independentes, e JComboBox (menu suspenso) ou JRadioButton para opções mutuamente exclusivas.  Agrupamento: Se for usar JRadioButton (ex: Masculino / Feminino), você precisa obrigatoriamente vinculá-los a um ButtonGroup nas propriedades, senão o usuário conseguirá marcar os dois ao mesmo tempo.  
+
+Exibição de Listas (JTextArea): Diferente do JTextField onde usamos setText() para substituir o texto, no JTextArea usamos frequentemente o método append() para adicionar dados na próxima linha (usando \n) sem apagar o histórico anterior.  

@@ -1,0 +1,94 @@
+package cadastroalunos;
+
+public class Aluno {
+
+    // 1. ATRIBUTOS (O "O que" a classe tem)
+    // DICA DE PROVA: Sempre declare como 'private' para garantir o encapsulamento[cite: 2].
+    // Se o tema for Produto, aqui seria: private String nomeProduto; private double preco;
+    private String nomeCompleto;
+    private String dataNascimento;
+    private String sexo;
+    private int matricula;
+    private String curso;
+    private String cpf;
+    private String endereco;
+    private String estado;
+    private String telefone;
+
+    // 2. CONSTRUTOR (Como criar o objeto)
+    // DICA DE PROVA: O construtor DEVE ter o exato mesmo nome da classe[cite: 2].
+    // Ele recebe os dados da tela e joga para os atributos privados lá de cima.
+    public Aluno(String nomeCompleto, String dataNascimento, String sexo,
+                 int matricula, String curso, String cpf,
+                 String endereco, String estado, String telefone) {
+
+        // O 'this.' aponta para o atributo da classe. O que não tem 'this' é o parâmetro que chegou[cite: 2].
+        this.nomeCompleto = nomeCompleto;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+        this.matricula = matricula;
+        this.curso = curso;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.estado = estado;
+        this.telefone = telefone;
+    }
+
+    // 3. GETTERS e SETTERS (Como acessar e modificar os dados)
+    // DICA DE PROVA: O 'get' sempre RETORNA o tipo da variável. O 'set' é 'void' e recebe um parâmetro[cite: 2].
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
+
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
+    }
+    
+    // ... (Os outros getters e setters seguem a mesma lógica)[cite: 2] ...
+}
+
+
+LIVRO
+
+package biblioteca;
+
+public class Livro {
+
+    // 1. ATRIBUTOS
+    // Representam as características de um livro. Sempre 'private'.
+    private String titulo;
+    private String autor;
+    private String genero;
+    private int anoPublicacao; // Note que este é numérico, exigirá conversão na tela!
+    private String isbn;
+
+    // 2. CONSTRUTOR
+    // O nome é igual ao da classe. Serve para criar o "new Livro(...)".
+    public Livro(String titulo, String autor, String genero, int anoPublicacao, String isbn) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.genero = genero;
+        this.anoPublicacao = anoPublicacao;
+        this.isbn = isbn;
+    }
+
+    // 3. GETTERS e SETTERS
+    // Métodos para acessar e modificar os dados de forma segura.
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public int getAnoPublicacao() {
+        return anoPublicacao;
+    }
+
+    public void setAnoPublicacao(int anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
+    }
+    
+    // ... (Imagine que os getters e setters dos outros atributos estão aqui) ...
+}

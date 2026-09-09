@@ -1,0 +1,211 @@
+package cadastroalunos;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class TelaCadastro extends javax.swing.JFrame {
+    
+    // DICA DE PROVA 1: A Lista. 
+    // É aqui que os objetos ficam salvos na memória enquanto o programa roda[cite: 5].
+    // Se o tema mudar, mude o tipo: private ArrayList<Produto> listaProdutos = new ArrayList<>();
+    private ArrayList<Aluno> listaAlunos = new ArrayList<>();
+
+    // ... (Código de inicialização da janela oculto para focar na lógica) ...
+
+    // =========================================================================
+    // AÇÃO DO BOTÃO "CADASTRAR" (Onde a mágica acontece)
+    // =========================================================================
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        // PASSO 1: VALIDAÇÃO BÁSICA
+        // Use getText().isEmpty() para ver se o usuário deixou em branco[cite: 5].
+        if(txtEndereco.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Preencha o endereço"); // Mostra erro na tela[cite: 5].
+            return; // O 'return' para a execução do método aqui, não deixando cadastrar errado[cite: 5].
+        }
+        
+        // PASSO 2: CONVERSÃO DE TIPOS
+        // Tudo que vem da tela de texto (JTextField) é String. Se seu atributo for 'int' ou 'double', tem que converter!
+        // Integer.parseInt() transforma texto em número inteiro[cite: 5].
+        int matricula = Integer.parseInt(txtMatricula.getText()); 
+        
+        // PASSO 3: CRIAR O OBJETO
+        // Aqui você "chama" aquele construtor que criamos lá no Aluno.java[cite: 5].
+        Aluno aluno = new Aluno(
+            txtNome.getText(),
+            txtDataNascimento.getText(),
+            cbmSexo.getSelectedItem().toString(), // Para pegar valor de JComboBox[cite: 5].
+            matricula, // Passando a variável que já convertemos para int[cite: 5].
+            txtCurso.getText(),
+            txtCPF.getText(),
+            txtEndereco.getText(),
+            cbmEstado.getSelectedItem().toString(),
+            txtTelefone.getText()
+        );
+        
+        // PASSO 4: ADICIONAR NA LISTA E SALVAR
+        listaAlunos.add(aluno); // Guarda na memória[cite: 5].
+        salvarArquivo(); // (Opcional, dependendo se a prova pedir persistência em TXT)[cite: 5].
+        
+        // PASSO 5: ATUALIZAR A TABELA VISUAL (JTable)
+        // Pegamos o modelo da tabela da tela e adicionamos uma nova linha[cite: 5].
+        DefaultTableModel modelo = (DefaultTableModel) tblAlunos.getModel();
+        modelo.addRow(new Object[]{
+            aluno.getNomeCompleto(), // Usamos os Getters para preencher as colunas[cite: 5].
+            aluno.getDataNascimento(),
+            aluno.getSexo(),
+            aluno.getMatricula(),
+            aluno.getCurso(),
+            aluno.getEndereco(),
+            aluno.getEstado(),
+            aluno.getTelefone(),
+            aluno.getCpf()
+        });
+        
+        // PASSO 6: LIMPAR OS CAMPOS PARA O PRÓXIMO CADASTRO
+        txtNome.setText(""); // Seta o texto para vazio[cite: 5].
+        txtMatricula.setText("");
+        cbmSexo.setSelectedIndex(0); // Volta o ComboBox para a primeira opção[cite: 5].
+    }
+
+    // =========================================================================
+    // AÇÃO DO BOTÃO "EXCLUIR"
+    // =========================================================================
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        // PASSO 1: DESCOBRIR QUEM ESTÁ SELECIONADO NA TABELA
+        int linha = tblAlunos.getSelectedRow(); // Retorna -1 se nada estiver selecionado[cite: 5].
+        
+        if(linha == -1){
+            JOptionPane.showMessageDialog(null, "Selecione um aluno na tabela.");[cite: 5]
+            return;
+        }
+        
+        // PASSO 2: PERGUNTAR SE TEM CERTEZA
+        int resposta = JOptionPane.showConfirmDialog(
+                null,
+                "Deseja realmente excluir?",
+                "Confirmação",
+                JOptionPane.YES_NO_CANCEL_OPTION
+        );[cite: 5]
+        
+        // PASSO 3: EFETIVAR A EXCLUSÃO
+        if(resposta == JOptionPane.YES_OPTION){
+            listaAlunos.remove(linha); // Remove da memória (ArrayList)[cite: 5].
+            salvarArquivo(); // Atualiza o TXT para refletir a exclusão[cite: 5].
+            
+            // Remove da tabela visual da interface[cite: 5].
+            DefaultTableModel tabela = (DefaultTableModel) tblAlunos.getModel();
+            tabela.removeRow(linha);[cite: 5]
+        }
+    }
+}
+
+
+
+
+LIVRO
+
+package biblioteca;
+
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class TelaBiblioteca extends javax.swing.JFrame {
+    
+    // A Lista onde os livros vão ficar salvos na memória durante a execução.
+    private ArrayList<Livro> listaLivros = new ArrayList<>();
+
+    // =========================================================================
+    // AÇÃO DO BOTÃO "CADASTRAR"
+    // =========================================================================
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        // PASSO 1: VALIDAÇÃO BÁSICA
+        // Verifica se o título foi preenchido.
+        if(txtTitulo.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Preencha o título do livro.");
+            txtTitulo.requestFocus(); // Coloca o cursor piscando no campo vazio
+            return;
+        }
+        
+        // PASSO 2: CONVERSÃO DE TIPOS (Muito cuidado aqui na prova!)
+        // O ano digitado na tela é String. Precisamos converter para int.
+        int ano;
+        try {
+            ano = Integer.parseInt(txtAnoPublicacao.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "O ano deve conter apenas números.");
+            return; // Interrompe se o usuário digitou letras no lugar de números
+        }
+        
+        // PASSO 3: CRIAR O OBJETO (Instanciar)
+        Livro novoLivro = new Livro(
+            txtTitulo.getText(),
+            txtAutor.getText(),
+            cbmGenero.getSelectedItem().toString(), // Ex: "Ficção", pego de um JComboBox
+            ano, // Variável int que já convertemos
+            txtISBN.getText()
+        );
+        
+        // PASSO 4: ADICIONAR NA LISTA
+        listaLivros.add(novoLivro);
+        
+        // PASSO 5: ATUALIZAR A TABELA VISUAL (JTable)
+        DefaultTableModel modelo = (DefaultTableModel) tblLivros.getModel();
+        modelo.addRow(new Object[]{
+            novoLivro.getTitulo(),
+            novoLivro.getAutor(),
+            novoLivro.getGenero(),
+            novoLivro.getAnoPublicacao(),
+            novoLivro.getIsbn()
+        });
+        
+        // PASSO 6: LIMPAR OS CAMPOS
+        txtTitulo.setText("");
+        txtAutor.setText("");
+        txtAnoPublicacao.setText("");
+        txtISBN.setText("");
+        cbmGenero.setSelectedIndex(0);
+        
+        JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+    }
+
+    // =========================================================================
+    // AÇÃO DO BOTÃO "EXCLUIR"
+    // =========================================================================
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        // PASSO 1: SABER QUAL LINHA ESTÁ SELECIONADA
+        int linha = tblLivros.getSelectedRow();
+        
+        if(linha == -1){
+            JOptionPane.showMessageDialog(this, "Selecione um livro na tabela para excluir.");
+            return;
+        }
+        
+        // PASSO 2: PERGUNTAR SE O USUÁRIO TEM CERTEZA
+        int confirmacao = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja excluir o livro selecionado?",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION
+        );
+        
+        // PASSO 3: EFETIVAR A EXCLUSÃO
+        if(confirmacao == JOptionPane.YES_OPTION){
+            // 1. Remove da memória (A lista ArrayList de Livros)
+            listaLivros.remove(linha); 
+            
+            // 2. Remove da interface visual (A JTable)
+            DefaultTableModel modelo = (DefaultTableModel) tblLivros.getModel();
+            modelo.removeRow(linha);
+            
+            JOptionPane.showMessageDialog(this, "Livro excluído com sucesso!");
+        }
+    }
+}
